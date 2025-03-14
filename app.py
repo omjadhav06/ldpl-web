@@ -1,19 +1,17 @@
 from flask import Flask, render_template, request, redirect, jsonify, flash, session, url_for
 import firebase_admin
-from firebase_admin import credentials, db, initialize_app
+from firebase_admin import credentials, db
 import requests
 from functools import wraps
-import os
 
 app = Flask(__name__)
 app.secret_key = "lSd4EY2K9VJsNAnsQE2xD9MUxkGIKxZyVYLBQ2Gw"  # Use a secure value in production
+
 # Initialize Firebase Admin SDK
-FIREBASE_CREDENTIALS_PATH ="C:\myproject\lokvikas-web-firebase-adminsdk-yoqwd-60271071b2.json"
-cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)  # Update with your Firebase private key path
+cred = credentials.Certificate("C:/myproject/lokvikas-web-firebase-adminsdk-yoqwd-60271071b2.json")  # Update with your Firebase private key path
 firebase_admin.initialize_app(cred, {
     "databaseURL": "https://lokvikas-web-default-rtdb.firebaseio.com/"  # Replace with your Firebase Realtime Database URL
 })
-firebase_json_path = "/etc/secrets/firebase-adminsdk.json"
 
 # Decorator to ensure user is logged in
 def login_required(f):
@@ -38,24 +36,30 @@ def products():
     try:
         # Fetch products from Firebase
         products_ref = db.reference("products").get()
+
+        # Debugging: Print fetched data
+        print("Fetched Products:", products_ref)
+
         products = []
 
-        # Parse product data into a list
-        if products_ref:
-            for key, value in products_ref.items():
+        # Ensure products_ref is a dictionary before iterating
+        if isinstance(products_ref, dict):
+            for product_id, product_data in products_ref.items():
                 product = {
-                    "id": key,
-                    "name": value.get("name", "Unknown"),
-                    "price": value.get("price", "0"),
-                    "image_url": value.get("image_url", "https://via.placeholder.com/300"),
-                    "stock": int(value.get("stock", 0))
+                    "id": product_id,  # Unique product ID from Firebase
+                    "name": product_data.get("name", "Unknown"),
+                    "price": product_data.get("price", "0"),
+                    "stock": int(product_data.get("stock", 0)),  # Convert stock to integer
+                    "image_url": product_data.get("image_url", "https://via.placeholder.com/300")
                 }
                 products.append(product)
 
+        # If no products exist
         if not products:
             flash("No products available.", "info")
 
         return render_template("products.html", products=products)
+    
     except Exception as e:
         flash(f"Error fetching products: {str(e)}", "error")
         return render_template("products.html", products=[])
@@ -297,29 +301,63 @@ def admin_dashboard():
         return render_template("admin_dashboard.html", gallery_images=[])
 
 IMAGEBB_API_KEY = "f6230ba4f83a87955248c7ea01f84dd1"
-@app.route('/vision-mission')
-def vision_mission():
-    return render_template('vismis.html')
 
-@app.route('/history')
-def history():
-    return render_template('history.html')
+@app.route("/admin/add-gallery-image", methods=["POST"])
+@login_required
+def add_gallery_image():
+    try:
+        image = request.files.get("image")
+        if not image:
+            flash("No image provided!", "error")
+            return redirect(url_for("gallery"))
 
-@app.route('/overview')
-def company_overview():
-    return render_template('company_overview.html')
+        # Upload image to ImageBB
+        response = requests.post(
+            f"https://api.imgbb.com/1/upload?key={IMAGEBB_API_KEY}",
+            files={"image": image.read()}
+        )
+        if response.status_code != 200:
+            flash(f"ImageBB API Error: {response.json().get('error', {}).get('message', 'Unknown error')}", "error")
+            return redirect(url_for("gallery"))
 
-@app.route('/finance')
-def finance_overview():
-    return render_template('finance.html')
-@app.route('/quality')
-def quality():
-    return render_template('quality.html')
+        data = response.json()
+        if not data.get("success"):
+            flash(f"Image upload failed: {data.get('error', {}).get('message', 'Unknown error')}", "error")
+            return redirect(url_for("gallery"))
 
+        image_url = data["data"]["url"]
+        db.reference("gallery").push({"image_url": image_url})
+
+        flash("Gallery image uploaded successfully!", "success")
+        return redirect(url_for("gallery"))
+    except requests.exceptions.RequestException as e:
+        flash(f"Network error: {str(e)}", "error")
+        return redirect(url_for("gallery"))
+    except Exception as e:
+        flash(f"Unexpected error: {str(e)}", "error")
+        return redirect(url_for("gallery"))
+
+
+@app.route('/gallery')
+def gallery():
+    try:
+        # Fetch gallery images from Firebase
+        gallery_ref = db.reference("gallery").get()
+        
+        # Check if data is available
+        if not gallery_ref:
+            flash("No images in the gallery.", "info")
+            return render_template('gallery.html', gallery_images=[])
+
+        # Format the data for displaying
+        gallery_images = [{"url": image["image_url"]} for image in gallery_ref.values()]
+        
+        return render_template('gallery.html', gallery_images=gallery_images)
+    except Exception as e:
+        flash(f"Error fetching gallery images: {str(e)}", "error")
+        return render_template('gallery.html', gallery_images=[])
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-    port = int(os.environ.get("PORT", 5000))  # Use Render's PORT or default to 5000
-    app.run(host="0.0.0.0", port=port)
     
