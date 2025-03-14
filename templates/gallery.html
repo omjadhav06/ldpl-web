@@ -1,0 +1,34 @@
+<!-- gallery.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Gallery</h1>
+    </header>
+
+    <section class="gallery-container">
+        {% if gallery_images %}
+            <div class="gallery-grid">
+                {% for image in gallery_images %}
+                    <div class="gallery-item">
+                        <img src="{{ image.get('url', '#') }}" alt="Gallery Image">
+
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No images available in the gallery yet.</p>
+        {% endif %}
+    </section>
+
+    <footer>
+        <a href="{{ url_for('admin_dashboard') }}">Go to Admin Dashboard</a>
+    </footer>
+</body>
+</html>

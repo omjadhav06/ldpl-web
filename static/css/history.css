@@ -1,0 +1,94 @@
+/* History Page Specific Styles */
+main {
+    padding-top: 120px; /* Space for fixed header */
+    min-height: calc(100vh - 200px);
+  }
+  
+  /* History Section */
+  .history {
+    padding: 4rem 1rem;
+    background: #f9f9f9;
+  }
+  
+  .history .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .history h2 {
+    color: #004d99;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .history h2:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #004d99;
+    margin: 10px auto;
+  }
+  
+  .history p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 1024px) {
+    .history .container {
+      padding: 0 1rem;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    main {
+      padding-top: 150px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    main {
+      padding-top: 180px;
+    }
+  }
+  
+  /* Animation Effects */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .history {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  /* High Contrast Mode */
+  @media (prefers-contrast: high) {
+    .history {
+      border: 2px solid #000;
+    }
+    
+    .history h2 {
+      color: #000;
+    }
+  }

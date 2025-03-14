@@ -1,0 +1,102 @@
+/* Quality Page Specific Styles */
+main {
+    padding-top: 120px; /* Space for fixed header */
+    min-height: calc(100vh - 200px);
+  }
+  
+  /* Quality Section */
+  .quality {
+    padding: 4rem 1rem;
+    background: #f9f9f9;
+  }
+  
+  .quality .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .quality h2 {
+    color: #004d99;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .quality h2:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #004d99;
+    margin: 10px auto;
+  }
+  
+  .quality p, .quality ol {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+  }
+  
+  .quality ol {
+    padding-left: 1.5rem;
+  }
+  
+  .quality ol li {
+    margin-bottom: 1rem;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 1024px) {
+    .quality .container {
+      padding: 0 1rem;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    main {
+      padding-top: 150px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    main {
+      padding-top: 180px;
+    }
+  }
+  
+  /* Animation Effects */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .quality {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  /* High Contrast Mode */
+  @media (prefers-contrast: high) {
+    .quality {
+      border: 2px solid #000;
+    }
+    
+    .quality h2 {
+      color: #000;
+    }
+  }

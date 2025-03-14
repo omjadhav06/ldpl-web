@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/admin_dash.css">
+</head>
+
+<body>
+    <h1>Admin Dashboard</h1>
+
+    <!-- Add Product Section -->
+    <section>
+        <h2>Add Product</h2>
+        <form id="add-product-form" enctype="multipart/form-data">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" required>
+            <br>
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" required>
+            <br>
+            <label for="image">Product Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+            <br>
+            <button type="submit">Add Product</button>
+        </form>
+        <p id="response-message"></p>
+    </section>
+
+    <!-- Product List Section -->
+    <section>
+        <h2>Product List</h2>
+        <ul id="product-list"></ul>
+    </section>
+
+    <!-- Add Investor Section -->
+    <section>
+        <h2>Add Investor</h2>
+        <form id="add-investor-form" enctype="multipart/form-data">
+            <label for="investor_name">Investor Name:</label>
+            <input type="text" id="investor_name" name="investor_name" required>
+            <br>
+            <label for="contribution">Contribution:</label>
+            <input type="text" id="contribution" name="contribution" required>
+            <br>
+            <label for="role">Role:</label>
+            <input type="text" id="role" name="role" required>
+            <br>
+            <label for="contact_details">Contact Details:</label>
+            <input type="text" id="contact_details" name="contact_details" required>
+            <br>
+            <label for="photo">Investor Photo/Logo:</label>
+            <input type="file" id="photo" name="photo" accept="image/*" required>
+            <br>
+            <button type="submit">Add Investor</button>
+        </form>
+        <p id="investor-response-message"></p>
+    </section>
+
+    <!-- Investor List Section -->
+    <section>
+        <h2>Investor List</h2>
+        <ul id="investor-list"></ul>
+    </section>
+	
+    <!-- Add Factory/Dairy Image Section -->
+   <!-- Add Factory/Dairy Image Section -->
+<section>
+    <h2>Upload Factory/Dairy Image</h2>
+    <form id="upload-image-form" enctype="multipart/form-data">
+        <label for="image-input">Choose Image:</label>
+        <input type="file" id="image-input" accept="image/*" required>
+        <button type="submit">Upload Image</button>
+    </form>
+    <p id="upload-status"></p>
+</section>
+
+<section>
+    <h2>Gallery</h2>
+    <div id="gallery" class="gallery-list">
+        <!-- Gallery images will be loaded here -->
+    </div>
+</section>
+
+
+    <script>
+        // Add Product Form Submission
+        document.getElementById("add-product-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+
+            try {
+                const response = await fetch("/admin/add-product", {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await response.json();
+                document.getElementById("response-message").textContent = result.message;
+
+                if (result.success) {
+                    loadProducts(); // Reload product list
+                }
+            } catch (error) {
+                console.error("Error adding product:", error);
+            }
+        });
+
+        // Add Investor Form Submission
+        document.getElementById("add-investor-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+
+            try {
+                const response = await fetch("/admin/add-investor", {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await response.json();
+                document.getElementById("investor-response-message").textContent = result.message;
+
+                if (result.success) {
+                    loadInvestors(); // Reload investor list
+                }
+            } catch (error) {
+                console.error("Error adding investor:", error);
+            }
+        });
+
+        // Load Products from Firebase
+        async function loadProducts() {
+            const response = await fetch("/admin/products");
+            const { products } = await response.json();
+            const productList = document.getElementById("product-list");
+            productList.innerHTML = "";
+
+            for (const id in products) {
+                const product = products[id];
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <img src="${product.image_url}" alt="${product.name}" style="width: 100px; height: auto;">
+                    <p><strong>${product.name}</strong> - ₹${product.price} (Stock: ${product.stock})</p>
+                    <button onclick="removeProduct('${id}')">Remove</button>
+                `;
+                productList.appendChild(li);
+            }
+        }
+
+        // Load Investors from Firebase
+        async function loadInvestors() {
+            const response = await fetch("/admin/investors");
+            const { investors } = await response.json();
+            const investorList = document.getElementById("investor-list");
+            investorList.innerHTML = "";
+
+            for (const id in investors) {
+                const investor = investors[id];
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <img src="${investor.photo_url}" alt="${investor.investor_name}" style="width: 100px; height: auto;">
+                    <p><strong>${investor.investor_name}</strong> - ${investor.role} (Contribution: ₹${investor.contribution})</p>
+                    <p>Contact: ${investor.contact_details}</p>
+                    <button onclick="removeInvestor('${id}')">Remove Investor</button>
+                `;
+                investorList.appendChild(li);
+            }
+        }
+
+        // Remove Product
+        async function removeProduct(productId) {
+            try {
+                const response = await fetch(`/admin/remove-product/${productId}`, {
+                    method: "DELETE"
+                });
+                const result = await response.json();
+                alert(result.message);
+
+                if (result.success) {
+                    loadProducts(); // Reload product list
+                }
+            } catch (error) {
+                console.error("Error removing product:", error);
+            }
+        }
+
+        // Remove Investor
+        async function removeInvestor(investorId) {
+            if (confirm("Are you sure you want to remove this investor?")) {
+                try {
+                    const response = await fetch(`/admin/remove-investor/${investorId}`, {
+                        method: "DELETE"
+                    });
+                    const result = await response.json();
+                    alert(result.message);
+
+                    if (result.success) {
+                        loadInvestors(); // Reload investor list
+                    }
+                } catch (error) {
+                    console.error("Error removing investor:", error);
+                }
+            }
+        }
+
+        // Load products and investors on page load
+        loadProducts();
+        loadInvestors();
+		
+       // Handle Image Upload
+document.getElementById('upload-image-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    
+    const fileInput = document.getElementById('image-input');
+    const file = fileInput.files[0];
+    if (file) {
+        // Show uploading status
+        document.getElementById('upload-status').innerText = 'Uploading...';
+
+        // Use ImageBB API to upload image
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        try {
+            const response = await fetch('https://api.imgbb.com/1/upload?key=f6230ba4f83a87955248c7ea01f84dd1', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                const imageUrl = result.data.url;
+                // Send image URL to Firebase Realtime Database
+                await fetch('/api/save_factory_image', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image_url: imageUrl })
+                });
+
+                // Show success message
+                document.getElementById('upload-status').innerText = 'Image uploaded successfully!';
+                loadGallery(); // Refresh gallery after upload
+            } else {
+                document.getElementById('upload-status').innerText = 'Upload failed, try again.';
+            }
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            document.getElementById('upload-status').innerText = 'Upload failed.';
+        }
+    }
+});
+
+async function loadGallery() {
+    try {
+        const response = await fetch('/api/get_gallery_images');  // Correct API endpoint
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = '';  // Clear previous images
+
+        if (data.success && data.images.length > 0) {
+            data.images.forEach(imageUrl => {
+                const imgElement = document.createElement('img');
+                imgElement.src = imageUrl;
+                imgElement.alt = 'Gallery Image';
+                imgElement.style.width = '200px';  // Set image size
+                imgElement.style.margin = '10px';
+                gallery.appendChild(imgElement);
+            });
+        } else {
+            gallery.innerHTML = '<p>No images available.</p>';
+        }
+
+    } catch (error) {
+        console.error("Error loading gallery:", error);
+    }
+}
+
+
+// Load gallery images when the page is loaded
+window.onload = loadGallery;
+
+    </script>
+</body>
+
+</html>

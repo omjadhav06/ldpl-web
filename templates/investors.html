@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investors & Team - Lokvikas Dairy</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/investors.css') }}">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo-container" >
+      <a href="/">
+        <img src="/static/images/logo.png" alt="Lokvikas Logo">
+    </a>
+      <h1>Lokvikas Milk and Dairy Products</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/products">Products</a></li>
+        <li class="has-submenu">
+          <a href="/about-us">About Us</a>
+          <ul class="submenu">
+            <li><a href="/vision-mission">Vision & Mission</a></li>
+            <li><a href="/history">Our History</a></li>
+            <li><a href="/team">Our Team</a></li>
+            <li><a href="/overview">Company Overview</a></li>
+            <li><a href="/finance">Financial Overview</a></li>
+            <li><a href="/investors">Board of Directors</a></li>
+            <li><a href="/quality">Quality Policy</a></li>
+          </ul>
+        </li>
+        <li><a href="/investors">Investors</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/contact-us">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="team-section">
+      <div class="container">
+        <h2>Our Investors & Partners</h2>
+        <div class="profile-cards" id="investor-list">
+          <!-- Dynamic investor profiles will be inserted here -->
+          {% if investors %}
+            <div class="profile-grid">
+            {% for investor in investors %}
+              <div class="profile-card">
+                <img src="{{ investor.photo_url }}" alt="{{ investor.investor_name }}" class="profile-img">
+                <h3>{{ investor.investor_name }}</h3>
+                <p class="role">{{ investor.role }}</p>
+                <p class="contribution">Contribution: {{ investor.contribution }}</p>
+                <p class="contact">Contact: {{ investor.contact_details }}</p>
+              </div>
+            {% endfor %}
+            </div>
+          {% else %}
+            <p>No investors to display.</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Quick Links Section -->
+  <section class="quick-links">
+    <div class="quick-links-container">
+      <!-- Quick Links Column -->
+      <div class="quick-links-column">
+        <h2>Quick Links</h2>
+        <ul>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/investors">Investors</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/login">Admin Login</a></li>
+        </ul>
+      </div>
+      
+      <!-- Products Column -->
+      <div class="quick-links-column">
+        <h2>Our Products</h2>
+        <ul>
+          <li><a href="#milk">Premium Milk Varieties</a></li>
+          <li><a href="#butter">Table Butter & Butter Chiplet</a></li>
+          <li><a href="#buttermilk">Spicy Buttermilk</a></li>
+          <li><a href="#curd">Fresh Dahi</a></li>
+          <li><a href="#paneer">Malai Paneer</a></li>
+          <li><a href="#ghee">Cow Ghee</a></li>
+          <li><a href="#shrikhand">Shrikhand Varieties</a></li>
+          <li><a href="#sweets">Traditional Sweets</a></li>
+          <li><a href="#lassi">Refreshing Lassi</a></li>
+          <li><a href="#basundi">Rich Basundi</a></li>
+        </ul>
+      </div>
+      
+      <!-- Locations Column -->
+      <div class="quick-links-column">
+        <h2>Franchisee Locations</h2>
+        <ul>
+          <li><a href="#franchisees-locations">View Locations</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact Us Column -->
+      <div class="quick-links-column">
+        <h2>Contact Us</h2>
+        <ul>
+          <li><a href="mailto:info@lokvikas.com">Email Us</a></li>
+          <li><a href="tel:+919876543210">Call Us: +91 98765 43210</a></li>
+        </ul>
+      </div>
+      
+      <!-- Follow Us Column -->
+      <div class="quick-links-column">
+        <h2>Follow Us</h2>
+        <ul>
+          <li><a href="https://www.instagram.com/lokvikasmilk" target="_blank" class="instagram-link">
+            <img src="static/images/insta logo bg removed.jpg" alt="Instagram Logo"> Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Lokvikas Dairy Products. All rights reserved.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+  <script>
+    // Fetch investors from Firebase Realtime Database
+    async function loadInvestors() {
+      try {
+        const response = await fetch("/api/investors");
+        const data = await response.json();
+        const investors = data.investors;
+        const investorList = document.getElementById("investor-list");
+
+        // Clear the current content
+        investorList.innerHTML = "";
+
+        // Dynamically create the profile cards for each investor
+        investors.forEach(investor => {
+          const profileCard = document.createElement("div");
+          profileCard.classList.add("profile-card");
+
+          profileCard.innerHTML = `
+            <img src="${investor.photo_url}" alt="${investor.investor_name}" class="profile-img">
+            <h3>${investor.investor_name}</h3>
+            <p class="role">${investor.role}</p>
+            <p class="contribution">Contribution: ${investor.contribution}</p>
+            <p class="contact">Contact: ${investor.contact_details}</p>
+          `;
+          investorList.appendChild(profileCard);
+        });
+      } catch (error) {
+        console.error("Error loading investors:", error);
+      }
+    }
+
+    // Load investors when the page loads
+    window.onload = loadInvestors;
+  </script>
+</body>
+</html>

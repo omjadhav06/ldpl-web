@@ -1,0 +1,108 @@
+/* Financial Overview Page Specific Styles */
+main {
+    padding-top: 120px; /* Space for fixed header */
+    min-height: calc(100vh - 200px);
+  }
+  
+  /* Financial Overview Section */
+  .finance-overview {
+    padding: 4rem 1rem;
+    background: #f9f9f9;
+  }
+  
+  .finance-overview .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .finance-overview h2 {
+    color: #004d99;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .finance-overview h2:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #004d99;
+    margin: 10px auto;
+  }
+  
+  .finance-overview h3 {
+    color: #004d99;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .finance-overview p, .finance-overview ul {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .finance-overview ul {
+    padding-left: 1.5rem;
+  }
+  
+  .finance-overview ul li {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 1024px) {
+    .finance-overview .container {
+      padding: 0 1rem;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    main {
+      padding-top: 150px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    main {
+      padding-top: 180px;
+    }
+  }
+  
+  /* Animation Effects */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .finance-overview {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  /* High Contrast Mode */
+  @media (prefers-contrast: high) {
+    .finance-overview {
+      border: 2px solid #000;
+    }
+    
+    .finance-overview h2, .finance-overview h3 {
+      color: #000;
+    }
+  }

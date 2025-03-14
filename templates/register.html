@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration - Lokvikas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 80px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            
+			margin: 10px;
+			
+            border: 1px solid #ccc;
+            border-radius: 5px;
+			
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff7e5f;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #feb47b;
+        }
+        .link {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .link a {
+            color: #ff7e5f;
+            text-decoration: none;
+        }
+        .link a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Registration</h2>
+        <form id="registerForm">
+            <input type="text" id="secretCode" placeholder="Enter Secret Code" required>
+            <input type="text" id="phone" placeholder="Enter Phone Number" required>
+            <input type="password" id="password" placeholder="Enter Password" required>
+            <button type="button" onclick="registerAdmin()">Register</button>
+            <div class="link">
+                <p>Already have an account? <a href="/login">Login here</a></p>
+            </div>
+            <p class="error" id="errorMsg"></p>
+        </form>
+    </div>
+    <script>
+        function registerAdmin() {
+            const secretCode = document.getElementById('secretCode').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Secret code validation
+            if (secretCode !== "lokvikas@123") {
+                errorMsg.textContent = "Invalid Secret Code!";
+                return;
+            }
+            
+            errorMsg.textContent = "";
+
+            // Submit the form via a POST request
+            fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/login';
+                } else {
+                    errorMsg.textContent = data.error || "Registration failed!";
+                }
+            })
+            .catch(err => {
+                errorMsg.textContent = "An error occurred!";
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>

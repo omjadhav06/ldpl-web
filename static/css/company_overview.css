@@ -1,0 +1,94 @@
+/* Company Overview Page Specific Styles */
+main {
+    padding-top: 120px; /* Space for fixed header */
+    min-height: calc(100vh - 200px);
+  }
+  
+  /* Company Overview Section */
+  .company-overview {
+    padding: 4rem 1rem;
+    background: #f9f9f9;
+  }
+  
+  .company-overview .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .company-overview h2 {
+    color: #004d99;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .company-overview h2:after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #004d99;
+    margin: 10px auto;
+  }
+  
+  .company-overview p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 1024px) {
+    .company-overview .container {
+      padding: 0 1rem;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    main {
+      padding-top: 150px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    main {
+      padding-top: 180px;
+    }
+  }
+  
+  /* Animation Effects */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .company-overview {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  
+  /* High Contrast Mode */
+  @media (prefers-contrast: high) {
+    .company-overview {
+      border: 2px solid #000;
+    }
+    
+    .company-overview h2 {
+      color: #000;
+    }
+  }

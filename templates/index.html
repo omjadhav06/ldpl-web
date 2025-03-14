@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lokvikas Milk and Dairy Products - Quality dairy items for a healthier life.">
+  <meta name="keywords" content="milk, dairy, paneer, curd, lassi, Lokvikas">
+  <meta name="author" content="Lokvikas Team">
+  <title>Lokvikas Milk and Dairy Products</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+  <div class="logo-container">
+    <img src="/static/images/logo.png" alt="Lokvikas Logo" href="/index.html">
+    <h1>Lokvikas Milk and Dairy Products</h1>
+  </div>
+  <nav>
+    <ul>
+      <li class="has-submenu"><a href="/products">Products</a>
+        <ul class="submenu">
+          <li><a href="/products">Paneer</a></li>
+          <li><a href="/products">Curd</a></li>
+          <li><a href="/products">Basundi</a></li>
+          <li><a href="/products">Buttermilk</a></li>
+          <li><a href="/products"></a></li>
+        </ul></li>
+      <li class="has-submenu">
+        <a href="/about-us">About Us</a>
+        <ul class="submenu">
+          <li><a href="/vision-mission">Vision & Mission</a></li>
+          <li><a href="/history">Our History</a></li>
+          <li><a href="/team">Our Team</a></li>
+          <li><a href="/overview">Company Overview</a></li>
+          <li><a href="/finance">Financial Overview</a></li>
+          <li><a href="/investors">Board of Directors</a></li>
+          <li><a href="/quality">Quality Policy</a></li>
+        </ul>
+      </li>
+      <li><a href="/investors">Investors</a></li>
+      <li><a href="/gallery">Gallery</a></li>
+      <li><a href="/contact-us">Contact Us</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+  <!-- Banner Slider -->
+  <section id="banner">
+    <div class="banner-slider">
+      <img src="/static/images/banner1.jfif" alt="Banner 1" class="active">
+      <img src="/static/images/banner2.jfif" alt="Banner 2">
+      <img src="/static/images/banner3.jfif" alt="Banner 3">
+      <img src="/static/images/banner4.jfif" alt="Banner 4">
+      <button class="prev-btn">❮</button>
+      <button class="next-btn">❯</button>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products">
+    <h2>Our Products</h2>
+    <div id="product-container" class="product-grid">
+      <!-- Dynamic content loaded from Firebase -->
+    </div>
+  </section>
+
+  <!-- Happiness Section -->
+  <section id="happiness">
+    <h2>Happiness in Milky Ways</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>15,000+</h3>
+        <p>Families Consume Lokvikas Products Daily</p>
+      </div>
+      <div class="stat-card">
+        <h3>5+</h3>
+        <p>Lokvikas Parlours Operated by Our Franchisees</p>
+      </div>
+      <div class="stat-card">
+        <h3>30,000+</h3>
+        <p>Farmers Supply Fresh, Pure Milk Twice a Day</p>
+      </div>
+      <div class="stat-card">
+        <h3>1800+</h3>
+        <p>Retail Outlets Sell Lokvikas Products</p>
+      </div>
+      <div class="stat-card">
+        <h3>50+</h3>
+        <p>Products Offered by Lokvikas Milk and Dairy</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- History Section -->
+  <section id="history">
+    <h2>Our History</h2>
+    <div class="history-content">
+      <p>Established on March 16, 1963, Lokvikas has grown into a leading dairy cooperative. Our state-of-the-art infrastructure includes:</p>
+      <ul class="infrastructure-list">
+        <li>Modern dairy plant with 17 lakh liters per day capacity</li>
+        <li>Satellite dairy facility</li>
+        <li>Four chilling centers with combined capacity of 8 lakh liters per day</li>
+      </ul>
+      <a href="/about-us" class="bt n">Know More</a>
+    </div>
+  </section>
+
+  <!-- Chairman's Message Section -->
+  <section id="chairman-message">
+    <h2>Message from Our Chairman</h2>
+    <div class="message-content">
+      <p>Dear valued members and milk producers,</p>
+      <p>For over 61 years, Lokvikas has been at the forefront of dairy cooperation, bringing prosperity to farmers and quality products to consumers. Our journey continues with your trust and support.</p>
+      <h4>- Chairman, Lokvikas Milk and Dairy Products</h4>
+    </div>
+  </section>
+
+  <!-- Customer Reviews Section -->
+  <section id="reviews">
+    <h2>What Our Customers Say</h2>
+    <div class="review-cards">
+      <div class="review-card">
+        <p>"Lokvikas products are the best in quality and freshness!"</p>
+        <h4>- Anita Sharma</h4>
+      </div>
+      <div class="review-card">
+        <p>"I trust Lokvikas for my family's health."</p>
+        <h4>- Ravi Gupta</h4>
+      </div>
+      <div class="review-card">
+        <p>"Affordable and pure dairy products for everyone."</p>
+        <h4>- Priya Mehta</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links Section -->
+ <section class="quick-links">
+  <div class="quick-links-container">
+    <!-- Quick Links Column -->
+    <div class="quick-links-column">
+      <h2>Quick Links</h2>
+      <ul>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/investors">Investors</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/products">Products</a></li>
+		<li><a href="/login">Admin Login</a></li>
+      </ul>
+    </div>
+    
+    <!-- Products Column -->
+    <div class="quick-links-column">
+      <h2>Our Products</h2>
+      <ul>
+        <li><a href="#milk">Premium Milk Varieties</a></li>
+        <li><a href="#butter">Table Butter & Butter Chiplet</a></li>
+        <li><a href="#buttermilk">Spicy Buttermilk</a></li>
+        <li><a href="#curd">Fresh Dahi</a></li>
+        <li><a href="#paneer">Malai Paneer</a></li>
+        <li><a href="#ghee">Cow Ghee</a></li>
+        <li><a href="#shrikhand">Shrikhand Varieties</a></li>
+        <li><a href="#sweets">Traditional Sweets</a></li>
+        <li><a href="#lassi">Refreshing Lassi</a></li>
+        <li><a href="#basundi">Rich Basundi</a></li>
+      </ul>
+    </div>
+    
+    <!-- Locations Column -->
+    <div class="quick-links-column">
+      <h2>Franchisee Locations</h2>
+      <ul>
+        <li><a href="#franchisees-locations">View Locations</a></li>
+      </ul>
+    </div>
+    
+    <!-- Contact Us Column -->
+    <div class="quick-links-column">
+      <h2>Contact Us</h2>
+      <ul>
+        <li><a href="mailto:info@lokvikas.com">Email Us</a></li>
+        <li><a href="tel:+919876543210">Call Us: +91 98765 43210</a></li>
+      </ul>
+    </div>
+    
+    <!-- Follow Us Column -->
+    <div class="quick-links-column">
+      <h2>Follow Us</h2>
+      <ul>
+        <li><a href="https://www.instagram.com/lokvikasmilk" target="_blank" class="instagram-link">
+          <img src="static/images/insta logo bg removed.jpg" alt="Instagram Logo"> Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Lokvikas Milk and Dairy Products. All rights reserved.</p>
+  </footer>
+
+  <script src="/static/js/index.js"></script>
+</body>
+</html>

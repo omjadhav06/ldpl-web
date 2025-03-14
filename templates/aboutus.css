@@ -1,0 +1,127 @@
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+header {
+  background-color: #ff6600;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+h2, h3 {
+  color: #ff6600;
+  margin-bottom: 20px;
+}
+
+/* Spacing */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+section {
+  margin: 50px 0;
+}
+
+/* Intro Section */
+.intro-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.intro-text {
+  flex: 1;
+}
+
+.intro-image img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  height: 300px;
+}
+
+/* Vision & Mission Section */
+.vision-mission .content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.vision, .mission {
+  flex: 1;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Customer Stats Section */
+.customer-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  flex: 1 1 calc(33.333% - 20px);
+  text-align: center;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* Why Choose Section */
+.why-choose .choose-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.choose-item {
+  flex: 1 1 calc(25% - 20px);
+  text-align: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.choose-item img {
+  max-width: 50px;
+  margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+  background-color: #ff6600;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .intro-content {
+    flex-direction: column;
+  }
+
+  .vision-mission .content, .customer-cards, .why-choose .choose-grid {
+    flex-direction: column;
+  }
+}
