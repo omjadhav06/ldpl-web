@@ -8,7 +8,8 @@ import os
 app = Flask(__name__)
 app.secret_key = "lSd4EY2K9VJsNAnsQE2xD9MUxkGIKxZyVYLBQ2Gw"  # Use a secure value in production
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate("lokvikas-web-firebase-adminsdk-yoqwd-60271071b2.json")  # Update with your Firebase private key path
+FIREBASE_CREDENTIALS_PATH ="C:\myproject\lokvikas-web-firebase-adminsdk-yoqwd-60271071b2.json"
+cred = credentials.Certificate(FIREBASE_CREDENTIALS_PATH)  # Update with your Firebase private key path
 firebase_admin.initialize_app(cred, {
     "databaseURL": "https://lokvikas-web-default-rtdb.firebaseio.com/"  # Replace with your Firebase Realtime Database URL
 })
@@ -319,4 +320,6 @@ def quality():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Use Render's PORT or default to 5000
+    app.run(host="0.0.0.0", port=port)
     
