@@ -7,9 +7,8 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "lSd4EY2K9VJsNAnsQE2xD9MUxkGIKxZyVYLBQ2Gw"  # Use a secure value in production
-firebase_json_path ="C:/myproject/lokvikas-web-firebase-adminsdk-yoqwd-60271071b2.json"
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate("C:/myproject/lokvikas-web-firebase-adminsdk-yoqwd-60271071b2.json")  # Update with your Firebase private key path
+cred = credentials.Certificate("lokvikas-web-firebase-adminsdk-yoqwd-60271071b2.json")  # Update with your Firebase private key path
 firebase_admin.initialize_app(cred, {
     "databaseURL": "https://lokvikas-web-default-rtdb.firebaseio.com/"  # Replace with your Firebase Realtime Database URL
 })
